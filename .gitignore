@@ -1,0 +1,11 @@
+# Virtual Env
+/env/
+# Cache
+*__pycache__/
+# Data Base
+/app/database.db
+# Fotos
+/app/static/photos/
+*.jpg
+*.png
+*.jpeg
