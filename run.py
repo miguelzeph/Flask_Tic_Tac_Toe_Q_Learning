@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 from agent_env import *
 
 app = Flask(__name__)
@@ -153,16 +153,10 @@ env = Enviroment(
 )
 
 
-
 @app.route('/',methods=["GET", "POST"])
 def index( ):
 
     #start()
-
-    print(request.method)
-
-    if request.method == 'POST':
-        print('click')
     
     return render_template('index.html')
 
