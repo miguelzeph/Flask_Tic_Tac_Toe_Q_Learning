@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for
 from agent_env import *
 
+
 app = Flask(__name__)
 
 # funct to start the game
@@ -127,7 +128,7 @@ agent_1 = Agent(
     reward_player = {
         'win': 1,
         'lost': -1,
-        'draw': 0.1,  
+        'draw': 0.05,  
                         # Valores Positivos você força ele a buscar empates... ( Ele buscará o empate quando você treinar muito... ele deixa que vencer)
                         # Valore Zero... você acomoda o sistema. (Vc ferra o Player 2)
     }
@@ -153,12 +154,61 @@ env = Enviroment(
 )
 
 
-@app.route('/',methods=["GET", "POST"])
-def index( ):
+"""########## JS to Python 
+Teste = ["X", "", "0", "", "X", "", "", "", "0"]
 
-    #start()
-    
-    return render_template('index.html')
+def board_js_to_python(board_list):
+
+    new_board = []
+    for element in board_list:
+        if element == "":
+            new_board.append(0)
+        if element == "X":
+            new_board.append(1)
+        if element == "0":
+            new_board.append(-1)
+
+    return new_board
+
+board_teste = board_js_to_python(Teste) 
+print( board_teste )
+
+########## Python to JS
+Teste = ["X", "", "0", "", "X", "", "", "", "0"]
+
+def board_python_to_js(board_list):
+
+    new_board = []
+    for element in board_list:
+        if element == 0:
+            new_board.append("")
+        if element == 1:
+            new_board.append("X")
+        if element == -1:
+            new_board.append("0")
+
+    return new_board
+
+board_teste = board_python_to_js( board_teste )
+print( board_teste )
+#######"""
+
+@app.route('/<int:number>',methods=['GET','POST'])
+def teste( number ):
+    return render_template('index.html', number = number )
+
+
+@app.route('/',methods=["GET", "POST"])
+def index(  ):
+
+    if not request.get_json() == None:
+        print(request.get_json())
+
+    start()
+    board_python = { 'pos' : list( env.board.flatten() ) }
+    print(board_python)
+
+    return render_template('index.html', board_python = board_python )
 
 
 if __name__ == '__main__':

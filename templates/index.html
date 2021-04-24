@@ -10,9 +10,21 @@
 
     <!--Ctrl + F = Restarta o Static file do broser -->
 
+    <!-- Jquery         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    -->
+    <script src="static/js/jquery-3.5.1.min.js"></script>
+
+
+
 </head>
 
 <body>
+
+    <!-- Minha Variável Python para Armazenada em 
+    uma variável JS agora-->
+    <script type="text/javascript">
+        board_python_to_js = {{ board_python|tojson }}
+    </script>
 
 
     <div class="container">
@@ -34,6 +46,7 @@
     </div>
 
 
+    <script src="static/js/jquery.js"></script>
 
 
     <script src="static/js/app.js"></script>

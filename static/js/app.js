@@ -1,3 +1,5 @@
+
+
 const player = "X";
 const computer = "0";
 
@@ -70,6 +72,9 @@ const render_board = () => {
       document.querySelector(`#block_${i}`).classList.add("occupied");
     }
   });
+
+  console.log(play_board)
+  
 };
 
 const game_loop = () => {
@@ -108,3 +113,11 @@ const reset_board = () => {
 
 //initial render
 render_board();
+
+
+
+
+
+
+
+alert(board_python_to_js['pos']);
