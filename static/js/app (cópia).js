@@ -110,18 +110,18 @@ const addPlayerMove = e => {
   if (!board_full && play_board[e] == "") {
     play_board[e] = player;
     game_loop();
-    addComputerMove();
+    //addComputerMove();
   }
 };
 
 const addComputerMove = () => {
-  //if (!board_full) {
-    //do {
-    //  selected = Math.floor(Math.random() * 9);
-    //} while (play_board[selected] != "");
+  if (!board_full) {
+    do {
+      selected = Math.floor(Math.random() * 9);
+    } while (play_board[selected] != "");
     play_board[selected] = computer;
     game_loop();
-  //}
+  }
 };
 
 const reset_board = () => {

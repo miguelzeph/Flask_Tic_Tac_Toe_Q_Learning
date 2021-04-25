@@ -154,11 +154,8 @@ env = Enviroment(
 def index(  ):
     if request.method == 'POST':
         board_python = board_js_to_python( request.get_json()['board'] )
-        #print (board_python )
-        #return render_template('index.html', board_python = board_python )
         env.board = np.reshape( board_python , (-1, 3)) # Volta para 2D, para atualizar tabela
         #return render_template('index.html', board_python = board_python )
-
 
     start()
     board_python = { 'board' : board_python_to_js( list( env.board.flatten() ) ) }
