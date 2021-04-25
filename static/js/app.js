@@ -1,8 +1,7 @@
 
 
 
-alert(board_python_to_js['board']);
-
+//alert(board_python_to_js['board']);
 
 
 
@@ -11,6 +10,7 @@ const computer = "X";
 
 let board_full = false;
 let play_board = ["", "", "", "", "", "", "", "", ""];
+
 
 play_board = board_python_to_js['board']
 
@@ -72,8 +72,8 @@ const check_for_winner = () => {
   }
 };
 
-const render_board = () => {
 
+const render_board = () => {
   board_container.innerHTML = ""
   play_board.forEach((e, i) => {
     board_container.innerHTML += `<div id="block_${i}" class="block" onclick="{{addPlayerMove(${i})}}">${play_board[i]}</div> `
@@ -82,23 +82,31 @@ const render_board = () => {
     }
   });
 
-  console.log(play_board)
+  //console.log(play_board)
 
-  // Meu Método Post para pegar a Variável do JS e enviar para o FLASK
-  $(document).ready( function() {
-    $(".block").on('click',function(){
-      $.ajax({
-        type: 'POST',
-        url: '',
-        data: JSON.stringify ({'board':play_board }),
-        success: function(data) { alert('data: ' + data); },
-        contentType: "application/json",
-        dataType: 'json'
-      });
-    });
-  });
-  
 };
+
+
+const callApi = () => {
+  // Meu Método Post para pegar a Variável do JS e enviar para o FLASK
+  $.ajax({
+    type: 'POST',
+    url: '/',
+    data: JSON.stringify ( {'board' : play_board } ),
+    contentType: "application/json",
+    dataType: 'json'
+  })
+  .done(function(msg){
+    console.log(msg)
+    addComputerMove(msg)
+  })
+  .fail(function(jqXHR, textStatus, msg){
+    console.log( jqXHR, textStatus, msg )
+  });
+};
+
+
+
 
 const game_loop = () => {
   render_board();
@@ -109,17 +117,21 @@ const game_loop = () => {
 const addPlayerMove = e => {
   if (!board_full && play_board[e] == "") {
     play_board[e] = player;
+    //console.log( play_board);
     game_loop();
-    addComputerMove();
+    callApi();
+    //addComputerMove();
   }
 };
 
-const addComputerMove = () => {
+const addComputerMove = (a) => {
   //if (!board_full) {
-    //do {
-    //  selected = Math.floor(Math.random() * 9);
-    //} while (play_board[selected] != "");
-    play_board[selected] = computer;
+  //  do {
+  //    selected = Math.floor(Math.random() * 9);
+  //  } while (play_board[selected] != "");
+  // play_board[selected] = computer;
+    //console.log( a, ' .....chamou....')
+    play_board = a;
     game_loop();
   //}
 };
@@ -131,7 +143,26 @@ const reset_board = () => {
   winner.classList.remove("computerWin");
   winner.classList.remove("draw");
   winner.innerText = "";
-  render_board();
+
+  $.ajax({
+    type: 'POST',
+    url: '/reset',
+    data: JSON.stringify ( {'board' : play_board } ),
+    contentType: "application/json",
+    dataType: 'json'
+  })
+  .done(function(msg){
+    console.log(msg);
+    addComputerMove(msg);
+    render_board();
+  })
+  .fail(function(jqXHR, textStatus, msg){
+    console.log( jqXHR, textStatus, msg )
+  });
+
+  
+
+
 };
 
 //initial render

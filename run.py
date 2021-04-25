@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, jsonify
 from agent_env import *
 
 app = Flask(__name__)
@@ -65,8 +65,8 @@ def start():
 
             
     # Mudar jogador    
-    agent_1.player *= -1 # switch players
-    agent_2.player *= -1 # switch players
+    #agent_1.player *= -1 # switch players
+    #agent_2.player *= -1 # switch players
 
 
     ########################## Ambiente Responde ######################################
@@ -87,9 +87,9 @@ def start():
         agent_2.update_Q( reward_2 )
 
         # Reset Game
-        env.reset_game()
-        agent_1.reset_game()
-        agent_2.reset_game()
+        #env.reset_game()
+        #agent_1.reset_game()
+        #agent_2.reset_game()
 
         
         # add partida jogada
@@ -150,12 +150,32 @@ env = Enviroment(
     epsilon =  0.0,
 )
 
+
+@app.route( '/reset', methods = ['POST'] )
+def reset():
+
+    env.reset_game()
+    agent_1.reset_game()
+    agent_2.reset_game()
+
+    start()
+    #board_python = { 'board' : board_python_to_js( list( env.board.flatten() ) ) }
+    board_python = board_python_to_js( env.board.flatten() ) 
+    #print(board_python)
+    return jsonify( board_python )
+
+
+
+
 @app.route( '/', methods=["GET", "POST"] )
 def index(  ):
     if request.method == 'POST':
         board_python = board_js_to_python( request.get_json()['board'] )
         env.board = np.reshape( board_python , (-1, 3)) # Volta para 2D, para atualizar tabela
-        #return render_template('index.html', board_python = board_python )
+        start()
+        board_python = board_python_to_js( env.board.flatten() ) 
+        print(board_python)
+        return jsonify( board_python )
 
     start()
     board_python = { 'board' : board_python_to_js( list( env.board.flatten() ) ) }
