@@ -4,6 +4,7 @@ import pandas as pd
 import pickle
 import os
 
+# CLASSES
 
 # Agent
 class Agent(object):
@@ -418,3 +419,35 @@ class Enviroment(object):
                 #print(str(self.board))
                 
                 self.select_pos_by_random( player, name = 'player '+str(player) )
+
+
+# FUNÇÕES
+
+# Board List Js to Python
+def board_js_to_python(board_list):
+
+    new_board = []
+    for element in board_list:
+        if element == "":
+            new_board.append(0)
+        if element == "X":
+            new_board.append(1)
+        if element == "0":
+            new_board.append(-1)
+
+    return new_board
+# Board List Python to JS
+def board_python_to_js(board_list):
+
+    new_board = []
+    for element in board_list:
+        if element == 0:
+            new_board.append("")
+        if element == 1:
+            new_board.append("X")
+        if element == -1:
+            new_board.append("0")
+
+    return new_board
+
+#Teste = ["X", "", "0", "", "X", "", "", "", "0"]

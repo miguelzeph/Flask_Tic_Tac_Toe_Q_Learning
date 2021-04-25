@@ -1,10 +1,18 @@
 
 
-const player = "X";
-const computer = "0";
+
+alert(board_python_to_js['board']);
+
+
+
+
+const player = "0";
+const computer = "X";
 
 let board_full = false;
 let play_board = ["", "", "", "", "", "", "", "", ""];
+
+play_board = board_python_to_js['board']
 
 const board_container = document.querySelector(".play-area");
 
@@ -65,6 +73,7 @@ const check_for_winner = () => {
 };
 
 const render_board = () => {
+
   board_container.innerHTML = ""
   play_board.forEach((e, i) => {
     board_container.innerHTML += `<div id="block_${i}" class="block" onclick="{{addPlayerMove(${i})}}">${play_board[i]}</div> `
@@ -74,6 +83,20 @@ const render_board = () => {
   });
 
   console.log(play_board)
+
+  // Meu Método Post para pegar a Variável do JS e enviar para o FLASK
+  $(document).ready( function() {
+    $(".block").on('click',function(){
+      $.ajax({
+        type: 'POST',
+        url: '',
+        data: JSON.stringify ({'board':play_board }),
+        success: function(data) { alert('data: ' + data); },
+        contentType: "application/json",
+        dataType: 'json'
+      });
+    });
+  });
   
 };
 
@@ -87,7 +110,7 @@ const addPlayerMove = e => {
   if (!board_full && play_board[e] == "") {
     play_board[e] = player;
     game_loop();
-    addComputerMove();
+    //addComputerMove();
   }
 };
 
@@ -114,10 +137,3 @@ const reset_board = () => {
 //initial render
 render_board();
 
-
-
-
-
-
-
-alert(board_python_to_js['pos']);

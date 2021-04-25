@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, url_for
 from agent_env import *
 
-
 app = Flask(__name__)
 
 # funct to start the game
@@ -48,8 +47,8 @@ def start():
         # ( Desenha  Board )
         env.draw_board()
         
-    else:               # PLAYER 2 
-        env.select_pos_by_Q( agent_2.player,name = 'player '+str(agent_2.player),Q_table = agent_2.Q_table)
+    else:               # PLAYER 2  (Java Script Joga)
+        #env.select_pos_by_Q( agent_2.player,name = 'player '+str(agent_2.player),Q_table = agent_2.Q_table)
         #env.select_pos_by_random( agent_2.player, name = 'player '+str(agent_2.player) )
         #env.select_pos_by_input( agent_2.player, name = 'player '+str(agent_2.player) )
         
@@ -97,7 +96,6 @@ def start():
         agent_1.number_match += 1
         agent_2.number_match += 1
 
-
 # LOAD
 def load_Q_table():
     # Player 2
@@ -119,7 +117,6 @@ def load_Q_table():
     agent_2.Q_table = Q_table_2
 
     #print(f"número de partidas {agent_1.number_match}")
-
 
 ## Player 1
 agent_1 = Agent( 
@@ -153,63 +150,20 @@ env = Enviroment(
     epsilon =  0.0,
 )
 
-
-"""########## JS to Python 
-Teste = ["X", "", "0", "", "X", "", "", "", "0"]
-
-def board_js_to_python(board_list):
-
-    new_board = []
-    for element in board_list:
-        if element == "":
-            new_board.append(0)
-        if element == "X":
-            new_board.append(1)
-        if element == "0":
-            new_board.append(-1)
-
-    return new_board
-
-board_teste = board_js_to_python(Teste) 
-print( board_teste )
-
-########## Python to JS
-Teste = ["X", "", "0", "", "X", "", "", "", "0"]
-
-def board_python_to_js(board_list):
-
-    new_board = []
-    for element in board_list:
-        if element == 0:
-            new_board.append("")
-        if element == 1:
-            new_board.append("X")
-        if element == -1:
-            new_board.append("0")
-
-    return new_board
-
-board_teste = board_python_to_js( board_teste )
-print( board_teste )
-#######"""
-
-@app.route('/<int:number>',methods=['GET','POST'])
-def teste( number ):
-    return render_template('index.html', number = number )
-
-
-@app.route('/',methods=["GET", "POST"])
+@app.route( '/', methods=["GET", "POST"] )
 def index(  ):
+    if request.method == 'POST':
+        board_python = board_js_to_python( request.get_json()['board'] )
+        #print (board_python )
+        #return render_template('index.html', board_python = board_python )
+        env.board = np.reshape( board_python , (-1, 3)) # Volta para 2D, para atualizar tabela
+        #return render_template('index.html', board_python = board_python )
 
-    if not request.get_json() == None:
-        print(request.get_json())
 
     start()
-    board_python = { 'pos' : list( env.board.flatten() ) }
-    print(board_python)
-
+    board_python = { 'board' : board_python_to_js( list( env.board.flatten() ) ) }
+    #print(board_python)
     return render_template('index.html', board_python = board_python )
-
 
 if __name__ == '__main__':
     app.run( debug = True )
