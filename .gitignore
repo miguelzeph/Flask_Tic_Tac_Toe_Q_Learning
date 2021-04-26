@@ -5,7 +5,9 @@
 # Data Base
 /app/database.db
 # Fotos
-/app/static/photos/
+/static/photos/
 *.jpg
 *.png
 *.jpeg
+# Pasta Particular
+/pasta_particular/*

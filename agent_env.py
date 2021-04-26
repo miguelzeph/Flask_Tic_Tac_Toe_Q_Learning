@@ -288,12 +288,14 @@ class Enviroment(object):
         if not 0 in self.board:
             #print('empate')
             return 0
+        
+        return 2
 
         #########################################################
         ## continua = 2, empate = 0, vitoria = 1, derrota = -1 ##
         #########################################################
 
-        return 2
+        
 
     # Dar recompensa        
     def reward(self, result, reward_player):

@@ -14,8 +14,6 @@
     background: #eee;
   }
 
-
-
 button {
     outline: none;
     border: 4px solid green;
@@ -52,13 +50,12 @@ button:hover {
   
 .block:hover {
     cursor: pointer;
-    background: #0ff30f;
+    background: #0f9ff3;
   }
 
 .occupied:hover {
     background: #ff3a3a;
   }
-
 
 #block_0,
 #block_1,
@@ -86,7 +83,7 @@ button:hover {
 
 
 .playerWin {
-    color: green;
+    color: blue;
   }
   
 .computerWin {
@@ -96,3 +93,7 @@ button:hover {
 .draw {
     color: orangered;
   }
+
+.info {
+    align-items: center;
+}

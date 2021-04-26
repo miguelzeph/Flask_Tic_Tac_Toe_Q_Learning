@@ -1,18 +1,11 @@
-//alert(board_python_to_js['board']);
-
-
-
 const player = "0";
 const computer = "X";
 
 let board_full = false;
 let play_board = ["", "", "", "", "", "", "", "", ""];
-play_board = board_python_to_js['board']; // python to js
-
-
+play_board = board_python_to_js['board']; // Do FLASK para o JS
 
 const board_container = document.querySelector(".play-area");
-
 const winner_statement = document.getElementById("winner");
 
 check_board_complete = () => {
@@ -58,17 +51,21 @@ const check_for_winner = () => {
   if (res == player) {
     winner.innerText = "Winner is player!!";
     winner.classList.add("playerWin");
-    board_full = true
+    board_full = true;
+
+
   } else if (res == computer) {
     winner.innerText = "Winner is computer";
     winner.classList.add("computerWin");
-    board_full = true
+    board_full = true;
+
+
   } else if (board_full) {
     winner.innerText = "Draw!";
     winner.classList.add("draw");
+
   }
 };
-
 
 const render_board = () => {
   board_container.innerHTML = ""
@@ -78,14 +75,10 @@ const render_board = () => {
       document.querySelector(`#block_${i}`).classList.add("occupied");
     }
   });
-
-  //console.log(play_board)
-
 };
 
-
 const callApi = () => {
-  // Meu Método Post para pegar a Variável do JS e enviar para o FLASK
+  // AJAX para acionar a minha API FLASK
   $.ajax({
     type: 'POST',
     url: '/',
@@ -102,9 +95,6 @@ const callApi = () => {
   });
 };
 
-
-
-
 const game_loop = () => {
   render_board();
   check_board_complete();
@@ -114,12 +104,11 @@ const game_loop = () => {
 const addPlayerMove = e => {
   if (!board_full && play_board[e] == "") {
     play_board[e] = player;
-    //console.log( play_board);
     game_loop();
     callApi();
-    //addComputerMove();
   }
 };
+
 
 const addComputerMove = (a) => {
   //if (!board_full) {
@@ -141,6 +130,7 @@ const reset_board = () => {
   winner.classList.remove("draw");
   winner.innerText = "";
 
+  // Ajax acionar API Flask - RESET
   $.ajax({
     type: 'POST',
     url: '/reset',
@@ -150,15 +140,13 @@ const reset_board = () => {
   })
   .done(function(msg){
     console.log(msg);
+    //callApi();
     addComputerMove(msg);
     render_board();
   })
   .fail(function(jqXHR, textStatus, msg){
     console.log( jqXHR, textStatus, msg )
   });
-
-  
-
 
 };
 

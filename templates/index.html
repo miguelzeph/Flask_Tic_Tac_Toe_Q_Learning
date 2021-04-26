@@ -1,29 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <!--Ctrl + F = Restarta o Static file do broser -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!--Css-->
     <link rel="stylesheet" href="static/style/style.css" />
-
-    <!--Ctrl + F = Restarta o Static file do broser -->
-
-    <!-- Jquery         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    -->
+    <!-- Jquery -->
     <script src="static/js/jquery-3.5.1.min.js"></script>
 
 </head>
 
 <body>
 
-    <!-- Minha Variável Python para Armazenada em 
-    uma variável JS agora-->
+
+    <!-- Minha Variável Python para Armazenada em uma variável JS agora-->
     <script type="text/javascript">
-        board_python_to_js = {{ board_python|tojson }}
+        board_python_to_js = {{ board_python|tojson }};
     </script>
 
+
+    <div class = 'info'>
+
+    <a href = "https://dev.to/ayushmanbthakur/how-to-make-tic-tac-toe-in-browser-with-html-css-and-js-28ed">
+        <h3>  Tic Tac Toe - Front-End Source</h3>
+    </a>
+
+    <p class='epoch'>Epoch Trained = {{epoch_trained}}</p>
+
+    <script>
+        p = document.createElement("p");
+        p.innerHTML = "Epoch Trained = "+epoch_trained_to_js;
+        document.body.appendChild(p);
+    </script>
+    
+    </div>
 
     <div class="container">
         <h1>Tic-Tac-Toe</h1>
@@ -38,18 +50,10 @@
             <div id="block_7" class="block"></div>
             <div id="block_8" class="block"></div>
         </div>
-
+        <hr>
         <h2 id="winner"></h2>
         <button onclick="reset_board()">RESET BOARD</button> 
     </div>
-
-
-    <script src="static/js/jquery.js"></script>
-
-
     <script src="static/js/app.js"></script>
-
-
 </body>
-
 </html>
