@@ -1,6 +1,3 @@
-
-
-
 //alert(board_python_to_js['board']);
 
 
@@ -10,9 +7,9 @@ const computer = "X";
 
 let board_full = false;
 let play_board = ["", "", "", "", "", "", "", "", ""];
+play_board = board_python_to_js['board']; // python to js
 
 
-play_board = board_python_to_js['board']
 
 const board_container = document.querySelector(".play-area");
 
