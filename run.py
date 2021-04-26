@@ -4,30 +4,14 @@ import os
 
 app = Flask(__name__)
 
-# checa resultado
-def Q_table_update():
 
-    ##################### Criação da Tabela Q (antes) - PLAYER 1 ###################
-    # Se não existe este Estado dentro da Tabela Q, adicione
-    if str(env.board) not in agent_1.Q_table['states']:
-
-        # 1-) Adicionar Estado Atual
-        agent_1.Q_table['states'].append( str(env.board ) )
-
-        # 2-) Add valor de Q
-        agent_1.Q_table['Q'].append( [0,0,0,0,0,0,0,0,0] )
-    ###############################################################
-    
-
-    # Registrar o State Inicial no PATH - Player 1
-    agent_1.path['states'].append( str(env.board) )
-
-# funct to start the game
-def start():
-
+def check():
     if env.check_result() != 2: # continua = 2, empate = 0, vitoria = 1, derrota = -1
         
-        Q_table_update()
+        #print(env.board)
+        #print(agent_1.path['actions'])
+        #print(agent_1.path['states'])
+
         
         # ( Desenha  Board )
         env.draw_board()
@@ -51,26 +35,57 @@ def start():
         # add partida jogada
         agent_1.number_match += 1
 
-    else:
+        print(agent_1.Q_table['Q'][0] )
+        print('epocas '+ str(agent_1.number_match) )
 
-        Q_table_update()
+        
+        return 'break'
 
-        ############################ Agente Executa Ação no Ambiente #################### 
-        # PLAYER 1
-        env.select_pos_by_Q( agent_1.player,name = 'player '+str(agent_1.player),Q_table = agent_1.Q_table)
-        #env.select_pos_by_random( agent_1.player, name = 'player '+str(agent_1.player) )  
-        #env.select_pos_by_input( agent_1.player, name = 'player '+str(agent_1.player) )
+# funct to start the game
+def start():
 
-        # ( Desenha  Board )
-        env.draw_board()
+    # Primeiro Check - Jogada por Click
+    if check() == 'break':
+        return 'fim da func Start()'
+    
 
-            
-        # Registrar o Action realizada no PATH
-        agent_1.path['actions'].append( str(env.pos) )
-            
-        # Mudar jogador    
-        #agent_1.player *= -1 # switch players
+    ##################### Criação da Tabela Q (antes) - PLAYER 1 ###################
+    # Se não existe este Estado dentro da Tabela Q, adicione
+    if str(env.board) not in agent_1.Q_table['states']:
 
+        # 1-) Adicionar Estado Atual
+        agent_1.Q_table['states'].append( str(env.board ) )
+
+        # 2-) Add valor de Q
+        agent_1.Q_table['Q'].append( [0,0,0,0,0,0,0,0,0] )
+    ###############################################################
+    
+
+    # Registrar o State Inicial no PATH - Player 1
+    agent_1.path['states'].append( str(env.board) )
+
+
+
+
+    ############################ Agente Executa Ação no Ambiente #################### 
+    # PLAYER 1
+    env.select_pos_by_Q( agent_1.player,name = 'player '+str(agent_1.player),Q_table = agent_1.Q_table)
+    #env.select_pos_by_random( agent_1.player, name = 'player '+str(agent_1.player) )  
+    #env.select_pos_by_input( agent_1.player, name = 'player '+str(agent_1.player) )
+
+    # ( Desenha  Board )
+    #env.draw_board()
+
+        
+    # Registrar o Action realizada no PATH
+    agent_1.path['actions'].append( str(env.pos) )
+        
+    # Mudar jogador    
+    #agent_1.player *= -1 # switch players
+
+    # Segundo Check é a Jogada por ML 
+    if check() == 'break':
+        return 'fim da func Start()'
     
 # LOAD
 def load_Q_table():
@@ -87,7 +102,7 @@ def load_Q_table():
 ## Player 1
 agent_1 = Agent( 
     lr = 0.9,
-    gamma = 0.1,
+    gamma = 0.9,
     reward_player = {
         'win': 1,
         'lost': -1,
@@ -133,7 +148,7 @@ def index(  ):
     return render_template('index.html', board_python = board_python )
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, debug = False)
-    #app.run(debug=True)
+    #port = int(os.environ.get("PORT", 5000))
+    #app.run(host='0.0.0.0', port=port, debug = False)
+    app.run(debug=True)
 
