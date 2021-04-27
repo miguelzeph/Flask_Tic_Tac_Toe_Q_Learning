@@ -77,6 +77,11 @@ const render_board = () => {
   });
 };
 
+
+
+
+
+
 const callApi = () => {
   // AJAX para acionar a minha API FLASK
   $.ajax({
@@ -121,6 +126,8 @@ const addComputerMove = (a) => {
     game_loop();
   //}
 };
+
+
 
 const reset_board = () => {
   play_board = ["", "", "", "", "", "", "", "", ""];

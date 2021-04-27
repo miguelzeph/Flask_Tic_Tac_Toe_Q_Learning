@@ -114,7 +114,6 @@ agent_1 = Agent(
     }
 )
 
-
 # Load Q Table
 load_Q_table()
 #print(agent_1.Q_table['Q'][0])
@@ -123,9 +122,6 @@ load_Q_table()
 #for q in agent_1.Q_table['states'][:3]:
 #    print(q)
 #    print('\n')
-
-
-
 
 # Object Enviroment
 env = Enviroment(
@@ -143,16 +139,16 @@ def reset():
     return jsonify( board_python )
 
 @app.route( '/', methods=["GET", "POST"] )
-def index(  ):
+def index( ):
     if request.method == 'POST':
         board_python = board_js_to_python( request.get_json()['board'] )
         env.board = np.reshape( board_python , (-1, 3)) # Volta para 2D, para atualizar tabela
         start()
-        
+
         board_python = board_python_to_js( env.board.flatten() ) 
         return jsonify( board_python )
 
-    start()
+    #start()
     board_python = { 'board' : board_python_to_js( list( env.board.flatten() ) ) }
     return render_template('index.html', board_python = board_python )
 
