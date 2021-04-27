@@ -75,6 +75,10 @@ class Agent(object):
         return df
     
     def update_Q(self, reward):
+
+        # Menor caminho para derrota, pontua mais. ( reward > 0 )
+        # Maior caminho para derrota, perde menos. ( reward < 0)
+        reward = reward / len(self.path['actions'])
         
         # Q(s,a) = Q(s,a) + alpha* ( R(s) + * Gamma * max_Q(s+1,:) - Q(s,a) ) )
         # R(s) = Reward...
@@ -288,14 +292,12 @@ class Enviroment(object):
         if not 0 in self.board:
             #print('empate')
             return 0
-        
-        return 2
 
         #########################################################
         ## continua = 2, empate = 0, vitoria = 1, derrota = -1 ##
         #########################################################
 
-        
+        return 2
 
     # Dar recompensa        
     def reward(self, result, reward_player):
@@ -380,17 +382,18 @@ class Enviroment(object):
                 #print(sorted( self.Q_table['Q'][index_state], reverse = True ) )
                 #input()
                 
-
+                valores_qmax = sorted( Q_table['Q'][index_state], reverse = True )
                 # pega o maior na ordem decrescente... 
-                for qmax in sorted( Q_table['Q'][index_state], reverse = True ):
+                for qmax in valores_qmax:
                     
                     # logo se for Zero não temos estado treinado
-                    if qmax == 0:
+                    #if qmax == 0:
                         
                         #print(f'********Jogada Aleatório - qmax = {qmax} ... não tem treino***********')
                         
-                        self.select_pos_by_random( player, name = 'player '+str( player ) )
-                        break
+                        #self.select_pos_by_random( player, name = 'player '+str( player ) )
+                        #break
+                        #return 'break'
 
 
                     index_qmax = Q_table['Q'][index_state].index( qmax )
@@ -399,6 +402,7 @@ class Enviroment(object):
 
                     row = int(action[1:2])
                     col = int(action[4:5])
+
 
                     if [row,col] in self.available_moves().tolist(): # Refransforme Em lista... Array ele aceita  
 
@@ -409,7 +413,8 @@ class Enviroment(object):
                         #print(f'******** Jogada Inteligente - melhor Q:{qmax}***********')
 
 
-                        break
+                        #break
+                        return 'break'
 
 
 
@@ -431,11 +436,11 @@ def board_js_to_python(board_list):
     new_board = []
     for element in board_list:
         if element == "":
-            new_board.append(0)
+            new_board.append(0.0)
         if element == "X":
-            new_board.append(1)
+            new_board.append(1.0)
         if element == "0":
-            new_board.append(-1)
+            new_board.append(-1.0)
 
     return new_board
 # Board List Python to JS
