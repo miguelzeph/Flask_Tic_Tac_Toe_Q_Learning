@@ -4,8 +4,7 @@ import pandas as pd
 import pickle
 import os
 
-# CLASSES
-
+###################### CLASSES ##########################
 # Agent
 class Agent(object):
 
@@ -246,10 +245,7 @@ class Enviroment(object):
                 else:
                     symbol = ' '
 
-
                 draw += '|'+symbol+''
-
-
 
                 if j == 2:
 
@@ -292,12 +288,12 @@ class Enviroment(object):
         if not 0 in self.board:
             #print('empate')
             return 0
+        
+        return 2
 
         #########################################################
         ## continua = 2, empate = 0, vitoria = 1, derrota = -1 ##
         #########################################################
-
-        return 2
 
     # Dar recompensa        
     def reward(self, result, reward_player):
@@ -310,7 +306,6 @@ class Enviroment(object):
         
         if result == 0:  # Empate
             return reward_player['draw']
-    
     
     # jogada - Random 
     def select_pos_by_random(self, player, name):
@@ -426,9 +421,13 @@ class Enviroment(object):
                 #print(str(self.board))
                 
                 self.select_pos_by_random( player, name = 'player '+str(player) )
+#########################################################
 
+###################### FUNÇÕES ##########################
+# JS board     => ["X", "", "0", "", "X", "", "", "", "0"]
+# Python board => [ [0,0,0], [0,-1,0], [0,0,0] ]
 
-# FUNÇÕES
+#Teste = ["X", "", "0", "", "X", "", "", "", "0"]
 
 # Board List Js to Python
 def board_js_to_python(board_list):
@@ -443,6 +442,7 @@ def board_js_to_python(board_list):
             new_board.append(-1.0)
 
     return new_board
+
 # Board List Python to JS
 def board_python_to_js(board_list):
 
@@ -456,5 +456,3 @@ def board_python_to_js(board_list):
             new_board.append("0")
 
     return new_board
-
-#Teste = ["X", "", "0", "", "X", "", "", "", "0"]

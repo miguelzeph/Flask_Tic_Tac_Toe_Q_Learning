@@ -77,11 +77,6 @@ const render_board = () => {
   });
 };
 
-
-
-
-
-
 const callApi = () => {
   // AJAX para acionar a minha API FLASK
   $.ajax({
@@ -114,7 +109,6 @@ const addPlayerMove = e => {
   }
 };
 
-
 const addComputerMove = (a) => {
   //if (!board_full) {
   //  do {
@@ -128,8 +122,24 @@ const addComputerMove = (a) => {
 };
 
 
+const start_game = () => {
+  // Ajax acionar API Flask - RESET
+  $.ajax({
+    type: 'POST',
+    url: '/start_game',
+  })
+  .done(function(msg){
+    console.log(msg);
+    addComputerMove(msg);
+    render_board();
+  })
+  .fail(function(jqXHR, textStatus, msg){
+    console.log( jqXHR, textStatus, msg )
+  });
 
-const reset_board = () => {
+}
+
+const reset_game = () => {
   play_board = ["", "", "", "", "", "", "", "", ""];
   board_full = false;
   winner.classList.remove("playerWin");
@@ -140,14 +150,13 @@ const reset_board = () => {
   // Ajax acionar API Flask - RESET
   $.ajax({
     type: 'POST',
-    url: '/reset',
+    url: '/reset_game',
     data: JSON.stringify ( {'board' : play_board } ),
     contentType: "application/json",
     dataType: 'json'
   })
   .done(function(msg){
     console.log(msg);
-    //callApi();
     addComputerMove(msg);
     render_board();
   })
@@ -159,4 +168,3 @@ const reset_board = () => {
 
 //initial render
 render_board();
-

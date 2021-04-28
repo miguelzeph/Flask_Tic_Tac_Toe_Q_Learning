@@ -11,3 +11,5 @@
 *.jpeg
 # Pasta Particular
 /pasta_particular/*
+# key ( chave do db)
+.key
