@@ -95,7 +95,7 @@ agent_1 = Agent(
 env = Enviroment(
     epsilon =  0.0,
 )
-
+"""
 ###########################################
 ################# MONGO DB ################
 import pymongo
@@ -116,6 +116,7 @@ db = cluster["TicTacToeReinforcementLearning"] # Cluster
 collection = db["TicTacToeReinforcementLearning"] # Dentro do Cluster temos a Coleção
 ###########################################
 ###########################################
+"""
 
 
 """
@@ -171,7 +172,7 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port, debug = False)
     #app.run(debug=True)
 
-
+"""
 print( "Salvando a Q table no mongodb...")
 ####### Quando Fechar o Flask, ele Salva os novos Valores da Q Table. #######
 Q_table_db = {
@@ -186,4 +187,5 @@ collection.find_one_and_update(
     new_information,
     upsert=True 
     )
+"""
 
