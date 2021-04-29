@@ -89,20 +89,19 @@ agent_1 = Agent(
     }
 )
 
-# Load Q Table
-load_Q_table()
+
 
 # Object Enviroment
 env = Enviroment(
     epsilon =  0.0,
 )
 
-
 ###########################################
 ################# MONGO DB ################
 import pymongo
 from pymongo import MongoClient
 ### Não esqueça ### ---> pip install pymongo dnspython
+from bson.objectid import ObjectId # para update o object já criado no MongodB Atlas
 
 try: # Local
     arq = open('./.key','r')
@@ -113,10 +112,27 @@ except FileNotFoundError: # Heroku
     key = str( os.environ['MONGO_DB_KEY'] )
     cluster = MongoClient( key )
 
-db = cluster[ "TicTacToeReinforcementLearning" ] # Cluster
-collection = db[ "TicTacToeReinforcementLearning"] # Dentro do Cluster temos a Coleção
-################################################
-################################################
+db = cluster["TicTacToeReinforcementLearning"] # Cluster
+collection = db["TicTacToeReinforcementLearning"] # Dentro do Cluster temos a Coleção
+###########################################
+###########################################
+
+
+
+try: 
+    print('Load Q_table pelo MongoDB')
+    # Load mongoDB - Q Table para Agent 1 object 
+    from bson.objectid import ObjectId
+    Q_table_db = collection.find_one( {'_id': ObjectId("608b189fe511655ac0d27dc4") } )
+
+    agent_1.Q_table['states'] = Q_table_db['states']
+    agent_1.Q_table['actions'] = Q_table_db['actions']
+    agent_1.Q_table['Q'] = Q_table_db['Q']
+except:
+    # Load Q Table pelo arquivo mesmo 
+    print('Load Q_table pelo ARQUIVO')
+    load_Q_table()
+
 
 @app.route( '/start_game', methods = ['POST'] )
 def start_game():
@@ -124,19 +140,8 @@ def start_game():
     board_python = board_python_to_js( env.board.flatten() )
     return jsonify( board_python )
 
-
-
-
 @app.route( '/reset_game', methods = ['POST'] )
 def reset_game():
-    # Antes de Resetar, salva no Mongo DB
-    """Q_table_db = {
-    'id': 0,
-    'states': agent_1.Q_table['states'] ,
-    'actions': agent_1.Q_table['actions'] ,
-    'Q': agent_1.Q_table['Q'] ,  
-    }
-    collection.insert_one( Q_table_db )"""
 
     # Reseta o Game
     env.reset_game()
@@ -163,3 +168,18 @@ if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug = False)
     #app.run(debug=True)
+
+print( "Salvando a Q table no mongodb...")
+####### Quando Fechar o Flask, ele Salva os novos Valores da Q Table. #######
+Q_table_db = {
+'states': agent_1.Q_table['states'] ,
+'actions': agent_1.Q_table['actions'] ,
+'Q': agent_1.Q_table['Q'] ,  
+}
+id_object = {"_id" : ObjectId("608b189fe511655ac0d27dc4")} # Pega o id no site do MONGODB
+new_information = {"$set":Q_table_db}
+collection.find_one_and_update( 
+    id_object ,
+    new_information,
+    upsert=True 
+    )
