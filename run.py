@@ -118,7 +118,7 @@ collection = db["TicTacToeReinforcementLearning"] # Dentro do Cluster temos a Co
 ###########################################
 
 
-
+"""
 try: 
     print('Load Q_table pelo MongoDB')
     # Load mongoDB - Q Table para Agent 1 object 
@@ -132,6 +132,8 @@ except:
     # Load Q Table pelo arquivo mesmo 
     print('Load Q_table pelo ARQUIVO')
     load_Q_table()
+"""
+load_Q_table()
 
 
 @app.route( '/start_game', methods = ['POST'] )
@@ -169,7 +171,7 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port, debug = False)
     #app.run(debug=True)
 
-"""
+
 print( "Salvando a Q table no mongodb...")
 ####### Quando Fechar o Flask, ele Salva os novos Valores da Q Table. #######
 Q_table_db = {
@@ -184,4 +186,4 @@ collection.find_one_and_update(
     new_information,
     upsert=True 
     )
-"""
+
