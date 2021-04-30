@@ -7,6 +7,7 @@ arq = open('./.key','r')
 key = arq.readline()
 arq.close()
 
+
 cluster = MongoClient( str( key ) )
 db = cluster["TicTacToeReinforcementLearning" ] # Cluster
 collection = db[ "TicTacToeReinforcementLearning"] # Dentro do Cluster temos a Coleção
@@ -18,9 +19,9 @@ Q_table_db = {
     'actions': 'teste...' ,
     'Q': 'teste...' ,  
 }
-
+print('okay')
 # CREATE OBJECT IN MONGO DB (Exemplo)
-collection.insert_one( Q_table_db )
+collection.insert_one( Q_table_db ) 
 
 """
 # UPDATE MONGO DB
