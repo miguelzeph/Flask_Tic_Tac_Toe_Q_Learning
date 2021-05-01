@@ -28,6 +28,16 @@ def check():
 # funct to start the game
 def start():
 
+    #--------------- env - Epsilon-----------------------
+    # Criei essa condição apenas para ter uma possibildade
+    # da primeira Jogada do computador ser diferente 
+    if ( 1 in env.board ) or (  -1 in env.board ):
+        env.epsilon = 0.05
+
+    else : 
+        env.epsilon = 0.70 
+    #---------------------------------------------------  
+
     # Jogada inicial e Jogada Player JavaScript
     #env.draw_board()
 
@@ -99,15 +109,15 @@ agent_1 = Agent(
     lr = 0.9,
     gamma = 0.9,
     reward_player = {
-        'win': 1000,
-        'lost': -100000,
-        'draw': -10000,  
+        'win': 10000,
+        'lost': -10000,
+        'draw': 0 #-10000
     }
 )
 
 # Object Enviroment (objeto)
 env = Enviroment(
-    epsilon =  0.0,
+    epsilon =  0.0, # Coloquei no start() uma condição
 )
 
 ################# MONGO DB ################
