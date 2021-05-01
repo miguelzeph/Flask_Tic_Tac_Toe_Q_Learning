@@ -32,7 +32,7 @@ def start():
     # Criei essa condição apenas para ter uma possibildade
     # da primeira Jogada do computador ser diferente 
     if ( 1 in env.board ) or (  -1 in env.board ):
-        env.epsilon = 0.05
+        env.epsilon = 0.0
 
     else : 
         env.epsilon = 0.70 
