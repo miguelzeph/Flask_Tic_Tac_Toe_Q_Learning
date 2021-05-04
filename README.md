@@ -18,7 +18,7 @@ Q-learning is a model-free reinforcement learning algorithm to learn the value o
 
 The core of the algorithm is a Bellman equation as a simple value iteration update, using the weighted average of the old value and the new information:
 
-$Q^{new}(s_{t},a_{t}) += lr * \left ( R(s) + \gamma * maxQ(s_{t+1},:) - Q(s_{t},a_{t}) \right )$
+$ Q^{new}(s_{t},a_{t}) += lr * \left ( R(s) + \gamma * maxQ(s_{t+1},:) - Q(s_{t},a_{t}) \right ) $
 
 
 ## A brief exemplo of how the algorithm work
