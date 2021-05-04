@@ -2,7 +2,7 @@
 
 <img src="./images/tictactoe.png" width="250">
 
-test the game: [tictactoe](https://www.youtube.com/watch?v=THhUXIhjkCM)
+test the game: [tictactoe](https://tictactoereinforcementlearning.herokuapp.com/)
 
 ## Overview
 This project follows the description of the Q Learning table described in Playing Tic-Tac-Toe with Reinforcement Learning.
@@ -18,7 +18,7 @@ Q-learning is a model-free reinforcement learning algorithm to learn the value o
 
 The core of the algorithm is a Bellman equation as a simple value iteration update, using the weighted average of the old value and the new information:
 
-$ Q^{new}(s_{t},a_{t}) += lr * \left ( R(s) + \gamma * maxQ(s_{t+1},:) - Q(s_{t},a_{t}) \right ) $
+<img src="./images/equation.png" width="250">
 
 
 ## A brief exemplo of how the algorithm work
