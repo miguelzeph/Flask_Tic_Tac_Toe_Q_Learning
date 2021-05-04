@@ -18,18 +18,14 @@ Q-learning is a model-free reinforcement learning algorithm to learn the value o
 
 The core of the algorithm is a Bellman equation as a simple value iteration update, using the weighted average of the old value and the new information:
 
-<img src="./images/equation.png" width="1000">
+<img src="./images/equation.png" width="500">
 
+## How the algorithm work
 
-## A brief exemplo of how the algorithm work
+The tic-tac-toe game presents a concept a little different from other models, as the reward comes only at the end of the game. Then it must be analyzed backwards, using the final result (tie, victory or defeat) as a reference. To simplify the explanation, see below an example for the following configured values.
 
-
-
-2. Modify `deep_q_network.py`'s parameter as follow:
-```python
-OBSERVE = 10000
-EXPLORE = 3000000
-FINAL_EPSILON = 0.0001
-INITIAL_EPSILON = 0.1
+```
+lr = 0.9 ( learning rate )
+gamma = 0.9 ( Factor Discont)
 ```
 
