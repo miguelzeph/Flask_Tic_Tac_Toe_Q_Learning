@@ -4,11 +4,6 @@
 *__pycache__/
 # Data Base
 /app/database.db
-# Fotos
-/static/photos/
-*.jpg
-*.png
-*.jpeg
 # Pasta Particular
 /pasta_particular/*
 # key ( chave do db)
