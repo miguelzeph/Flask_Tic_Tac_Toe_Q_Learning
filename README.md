@@ -2,7 +2,7 @@
 
 <img src="./images/tictactoe.png" width="250">
 
-test the game: [tictactoe](https://tictactoereinforcementlearning.herokuapp.com/)
+[Tic-Tac-Toe Game](https://tictactoereinforcementlearning.herokuapp.com/)
 
 ## Overview
 This project follows the description of the Q Learning table described in Playing Tic-Tac-Toe with Reinforcement Learning.
