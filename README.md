@@ -25,7 +25,8 @@ The core of the algorithm is a Bellman equation as a simple value iteration upda
 The tic-tac-toe game presents a concept a little different from other models, as the reward comes only at the end of the game. Then it must be analyzed backwards, using the final result (tie, victory or defeat) as a reference. To simplify the explanation, see below an example for the following configured values.
 
 ```
-lr = 0.9 ( learning rate )
+lr = 1.0 ( learning rate )
 gamma = 0.9 ( Factor Discont)
 ```
 
+<img src="./images/exemplo.png" width="500">
